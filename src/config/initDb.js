@@ -42,8 +42,18 @@ async function initDb() {
     );
   `);
 
+  
+  await pool.query(`
+    ALTER TABLE orders
+      ADD COLUMN IF NOT EXISTS payment_status VARCHAR(20) NOT NULL DEFAULT 'pendiente',
+      ADD COLUMN IF NOT EXISTS payment_method VARCHAR(30),
+      ADD COLUMN IF NOT EXISTS paid_at TIMESTAMP NULL,
+      ADD COLUMN IF NOT EXISTS payment_reference VARCHAR(100);
+  `);
+
   const adminEmail = 'admin@campusbite.com';
   const existingAdmin = await pool.query('SELECT id FROM users WHERE email = $1', [adminEmail]);
+
   if (existingAdmin.rowCount === 0) {
     const passwordHash = await bcrypt.hash('Admin123*', 10);
     await pool.query(

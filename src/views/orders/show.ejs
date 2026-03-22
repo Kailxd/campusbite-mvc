@@ -1,21 +1,59 @@
 <h1 class="h3 mb-3">Pedido #<%= order.id %></h1>
-<div class="card shadow-sm"><div class="card-body">
-  <p><strong>Estado:</strong> <%= order.status %></p>
-  <p><strong>Total:</strong> $<%= Number(order.total).toFixed(2) %></p>
-  <p><strong>Fecha:</strong> <%= new Date(order.created_at).toLocaleString('es-MX') %></p>
-  <hr>
-  <h2 class="h5">Detalle</h2>
-  <table class="table table-bordered">
-    <thead><tr><th>Producto</th><th>Cantidad</th><th>Precio unitario</th><th>Subtotal</th></tr></thead>
-    <tbody>
-      <% order.items.forEach(item => { %>
+
+<div class="card shadow-sm">
+  <div class="card-body">
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <p><strong>Estado del pedido:</strong> <%= order.status %></p>
+        <p><strong>Total:</strong> $<%= Number(order.total).toFixed(2) %></p>
+        <p><strong>Fecha:</strong> <%= new Date(order.created_at).toLocaleString('es-MX') %></p>
+      </div>
+      <div class="col-md-6">
+        <p><strong>Estado de pago:</strong>
+          <% if (order.payment_status === 'pagado') { %>
+            <span class="badge bg-success">Pagado</span>
+          <% } else { %>
+            <span class="badge bg-warning text-dark">Pendiente</span>
+          <% } %>
+        </p>
+        <p><strong>Método de pago:</strong> <%= order.payment_method || 'No registrado' %></p>
+        <p><strong>Referencia:</strong> <%= order.payment_reference || 'Sin referencia' %></p>
+        <p><strong>Fecha de pago:</strong>
+          <%= order.paid_at ? new Date(order.paid_at).toLocaleString('es-MX') : 'No pagado' %>
+        </p>
+      </div>
+    </div>
+
+    <% if (currentUser && ['estudiante', 'admin', 'empleado'].includes(currentUser.role) && order.payment_status !== 'pagado') { %>
+      <div class="mb-3">
+        <a href="/pedidos/<%= order.id %>/pagar" class="btn btn-success">Pagar pedido</a>
+      </div>
+    <% } %>
+
+    <hr>
+
+    <h2 class="h5">Detalle</h2>
+    <table class="table table-bordered">
+      <thead>
         <tr>
-          <td><%= item.product_name %></td>
-          <td><%= item.quantity %></td>
-          <td>$<%= Number(item.unit_price).toFixed(2) %></td>
-          <td>$<%= Number(item.subtotal).toFixed(2) %></td>
+          <th>Producto</th>
+          <th>Cantidad</th>
+          <th>Precio unitario</th>
+          <th>Subtotal</th>
         </tr>
-      <% }) %>
-    </tbody>
-  </table>
-</div></div>
+      </thead>
+      <tbody>
+        <% order.items.forEach(item => { %>
+          <tr>
+            <td><%= item.product_name %></td>
+            <td><%= item.quantity %></td>
+            <td>$<%= Number(item.unit_price).toFixed(2) %></td>
+            <td>$<%= Number(item.subtotal).toFixed(2) %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+
+    <a href="/pedidos" class="btn btn-outline-secondary">Volver</a>
+  </div>
+</div>
