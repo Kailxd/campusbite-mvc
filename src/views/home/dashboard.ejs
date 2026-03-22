@@ -1,0 +1,11 @@
+<h1 class="mb-4">Dashboard</h1>
+<div class="row g-3">
+  <% if (currentUser.role === 'estudiante') { %>
+    <div class="col-md-4"><div class="card shadow-sm"><div class="card-body"><h5>Mis pedidos</h5><p class="display-6"><%= stats.myOrdersCount %></p></div></div></div>
+  <% } else { %>
+    <div class="col-md-3"><div class="card shadow-sm"><div class="card-body"><h5>Productos</h5><p class="display-6"><%= stats.productsCount %></p></div></div></div>
+    <div class="col-md-3"><div class="card shadow-sm"><div class="card-body"><h5>Stock bajo</h5><p class="display-6"><%= stats.lowStockCount %></p></div></div></div>
+    <div class="col-md-3"><div class="card shadow-sm"><div class="card-body"><h5>Pedidos</h5><p class="display-6"><%= stats.ordersCount %></p></div></div></div>
+    <div class="col-md-3"><div class="card shadow-sm"><div class="card-body"><h5>Pendientes</h5><p class="display-6"><%= stats.pendingCount %></p></div></div></div>
+  <% } %>
+</div>

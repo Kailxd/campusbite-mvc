@@ -1,0 +1,17 @@
+<h1 class="h3 mb-3">Inventario</h1>
+<table class="table table-striped table-bordered bg-white shadow-sm">
+  <thead><tr><th>Producto</th><th>Stock actual</th><th>Nuevo stock</th><th>Acción</th></tr></thead>
+  <tbody>
+    <% products.forEach(product => { %>
+      <tr>
+        <td><%= product.name %></td>
+        <td><%= product.stock %></td>
+        <td>
+          <form class="d-flex gap-2" action="/inventario/<%= product.id %>/stock?_method=PUT" method="POST">
+            <input class="form-control" type="number" min="0" name="stock" value="<%= product.stock %>" required>
+        </td>
+        <td><button class="btn btn-outline-success">Actualizar</button></form></td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>

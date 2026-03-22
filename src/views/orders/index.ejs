@@ -1,0 +1,34 @@
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h1 class="h3 mb-0">Pedidos</h1>
+  <a href="/pedidos/nuevo" class="btn btn-success">Nuevo pedido</a>
+</div>
+<table class="table table-striped table-bordered bg-white shadow-sm">
+  <thead><tr><th>ID</th><th>Usuario</th><th>Estado</th><th>Total</th><th>Fecha</th><th>Acciones</th></tr></thead>
+  <tbody>
+    <% orders.forEach(order => { %>
+      <tr>
+        <td>#<%= order.id %></td>
+        <td><%= order.full_name || 'Mi pedido' %></td>
+        <td>
+          <% const klass = order.status === 'Pendiente' ? 'badge-pendiente' : order.status === 'En preparación' ? 'badge-preparacion' : order.status === 'Listo' ? 'badge-listo' : 'badge-entregado'; %>
+          <span class="badge-status <%= klass %>"><%= order.status %></span>
+        </td>
+        <td>$<%= Number(order.total).toFixed(2) %></td>
+        <td><%= new Date(order.created_at).toLocaleString('es-MX') %></td>
+        <td class="d-flex gap-2 align-items-center">
+          <a class="btn btn-sm btn-outline-primary" href="/pedidos/<%= order.id %>">Ver</a>
+          <% if (role === 'admin' || role === 'empleado') { %>
+            <form action="/pedidos/<%= order.id %>/status?_method=PUT" method="POST" class="d-flex gap-2">
+              <select class="form-select form-select-sm" name="status">
+                <% ['Pendiente','En preparación','Listo','Entregado'].forEach(s => { %>
+                  <option value="<%= s %>" <%= order.status === s ? 'selected' : '' %>><%= s %></option>
+                <% }) %>
+              </select>
+              <button class="btn btn-sm btn-outline-success">Guardar</button>
+            </form>
+          <% } %>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>

@@ -1,0 +1,19 @@
+:root {
+  --primary: #1e8449;
+  --secondary: #2c3e50;
+  --accent: #f39c12;
+  --light: #f6f7fb;
+  --danger: #c0392b;
+}
+body { background: #f3f5f8; }
+.navbar-brand { font-weight: 700; letter-spacing: .5px; }
+.hero { background: linear-gradient(135deg, var(--secondary), var(--primary)); color: white; border-radius: 1rem; }
+.card { border-radius: 1rem; }
+.table td, .table th { vertical-align: middle; }
+.badge-status { padding: .45rem .7rem; border-radius: 999px; }
+.badge-pendiente { background: #fff3cd; color: #664d03; }
+.badge-preparacion { background: #cfe2ff; color: #084298; }
+.badge-listo { background: #d1e7dd; color: #0f5132; }
+.badge-entregado { background: #e2e3e5; color: #41464b; }
+.footer-note { color: #6c757d; font-size: .9rem; }
+.login-card { max-width: 480px; margin: 0 auto; }

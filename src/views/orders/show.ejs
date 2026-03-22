@@ -1,0 +1,21 @@
+<h1 class="h3 mb-3">Pedido #<%= order.id %></h1>
+<div class="card shadow-sm"><div class="card-body">
+  <p><strong>Estado:</strong> <%= order.status %></p>
+  <p><strong>Total:</strong> $<%= Number(order.total).toFixed(2) %></p>
+  <p><strong>Fecha:</strong> <%= new Date(order.created_at).toLocaleString('es-MX') %></p>
+  <hr>
+  <h2 class="h5">Detalle</h2>
+  <table class="table table-bordered">
+    <thead><tr><th>Producto</th><th>Cantidad</th><th>Precio unitario</th><th>Subtotal</th></tr></thead>
+    <tbody>
+      <% order.items.forEach(item => { %>
+        <tr>
+          <td><%= item.product_name %></td>
+          <td><%= item.quantity %></td>
+          <td>$<%= Number(item.unit_price).toFixed(2) %></td>
+          <td>$<%= Number(item.subtotal).toFixed(2) %></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div></div>
